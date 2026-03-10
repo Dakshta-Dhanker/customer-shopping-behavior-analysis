@@ -38,18 +38,25 @@ A leading retail company wanted to better understand its customers' shopping beh
 customer-shopping-behavior-analysis/
 │
 ├── data/
-│   ├── Customer_retail_data.csv          # Raw dataset (8,000 rows × 19 cols)
-│   └── cleaned_customer.csv             # Python-cleaned dataset (21 cols)
+│   ├── Customer_retail_data.csv           # Raw dataset (8,000 rows × 19 cols)
+│   └── cleaned_customer.csv              # Python-cleaned dataset (21 cols)
 │
 ├── notebooks/
-│   └── Customer_Behavior_Analysis.ipynb  # Python EDA & data cleaning
+│   └── Customer_Behavior_Analysis.ipynb   # Python EDA & data cleaning
 │
 ├── sql/
-│   ├── Customer_analysis.sql             # 16 business intelligence queries
-│   └── RFM_Analysis.sql                  # RFM + Cohort Retention + CLV
+│   ├── Customer_analysis.sql              # 16 business intelligence queries
+│   └── RFM_Analysis.sql                   # RFM + Cohort Retention + CLV
 │
 ├── dashboard/
-│   └── customer_behavior_analysis.pbix   # Power BI 3-page dashboard
+│   ├── customer_behavior_analysis.pbix    # Power BI 3-page dashboard
+│   └── screenshots/
+│       ├── 01_executive_overview.png      # Page 1 — Executive Overview
+│       ├── 02_behavior_drivers.png        # Page 2 — Behavior Drivers
+│       └── 03_advanced_analytics.png      # Page 3 — Advanced Analytics
+│
+├── presentation/
+│   └── Customer_Behavior_Presentation.pptx  # Project presentation deck
 │
 ├── report/
 │   └── Customer_Shopping_Behavior_Report.docx
@@ -105,7 +112,7 @@ Raw CSV (8,000 rows × 19 cols)
 | Column | Missing Count | % Missing | Treatment |
 |--------|--------------|-----------|-----------|
 | Size | 5,479 | 68.5% | Imputed / handled |
-| Promo Code Used | 150 | 1.9% | Filled → dropped (redundant with discount_applied) |
+| Promo Code Used | 150 | 1.9% | Imputed using mode — column retained (distinct from discount_applied) |
 | Review Rating | 120 | 1.5% | Median imputed per product category |
 | Shipping Type | 100 | 1.25% | Mode imputed per category |
 
@@ -118,7 +125,7 @@ Raw CSV (8,000 rows × 19 cols)
 
 ### Other Cleaning Steps
 - Renamed all 19 columns to `snake_case` for SQL compatibility
-- Verified `discount_applied` and `promo_code_used` were redundant → `promo_code_used` dropped
+- Verified `discount_applied` and `promo_code_used` are **two distinct columns** — a customer can get a discount without a promo code and vice versa; both columns retained for independent analysis
 - No duplicate `customer_id` entries found
 - Connected Python to PostgreSQL via **SQLAlchemy** and loaded cleaned DataFrame into `customer_behavior.customer`
 
@@ -217,6 +224,19 @@ Top 20 customers ranked by `SUM(purchase_amount)`. Each record shows: total orde
 | Avg Customer Value | ₹27K |
 
 **Visuals:** Customer Spending by Recency · Purchase Interval Distribution by RFM Segment · Customer Engagement Scatter (Recency vs Frequency)
+
+---
+
+## 📸 Dashboard Preview
+
+### Page 1 — Executive Overview
+![Executive Overview](dashboard/screenshots/01_executive_overview.png)
+
+### Page 2 — Behavior Drivers
+![Behavior Drivers](dashboard/screenshots/02_behavior_drivers.png)
+
+### Page 3 — Advanced Analytics
+![Advanced Analytics](dashboard/screenshots/03_advanced_analytics.png)
 
 ---
 
